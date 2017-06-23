@@ -147,7 +147,6 @@ public class GroovySupport extends AbstractResource implements ActionsPublisher 
              * of Console.  So we have to implement the property setter here,
              * delegating to the real private field in the superclass.
              */
-            @SuppressWarnings("unused")
             public void setScriptRunning(boolean b) {
               try {
                 Field f = groovy.ui.Console.class.getDeclaredField("scriptRunning");
