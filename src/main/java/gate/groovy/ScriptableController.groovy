@@ -490,7 +490,7 @@ class DaemonThreadFactory implements ThreadFactory {
  * </dl>
  */
 class ScriptableControllerBinding extends Binding {
-  private ScriptableController controller = null;
+  private ScriptableController controller;
   
   private List unmodifiablePrList
   
