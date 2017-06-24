@@ -68,7 +68,7 @@ public class ScriptPR extends AbstractLanguageAnalyser implements
   /**
    * The compiled Groovy script.
    */
-  private Script groovyScript;
+  private transient Script groovyScript;
 
   /**
    * the source of the loaded groovy script for use in the VR
@@ -90,7 +90,7 @@ public class ScriptPR extends AbstractLanguageAnalyser implements
    */
   private String inputASName;
   
-  private GateClassLoader classloader = null;
+  private transient GateClassLoader classloader = null;
 
   /** Initialise this resource, and return it. */
   public Resource init() throws ResourceInstantiationException {
