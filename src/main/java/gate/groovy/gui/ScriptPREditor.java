@@ -78,13 +78,12 @@ public class ScriptPREditor extends AbstractVisualResource implements
     btnSave.addActionListener(new ActionListener() {
 
       public void actionPerformed(ActionEvent e) {
-        try {
+        try (FileWriter out = new FileWriter(file)) {
           // when the save button is clicked write the contents of the editor
           // out into the script file the PR is backed by and then...
-          FileWriter out = new FileWriter(file);
+          
           out.write(editor.getTextEditor().getText());
           out.flush();
-          out.close();
 
           // re-init the PR so the script is reloaded
           pr.reInit();
