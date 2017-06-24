@@ -19,7 +19,6 @@ import gate.CorpusController;
 import gate.FeatureMap;
 import gate.Gate;
 import gate.Factory;
-import gate.ProcessingResource;
 import gate.Resource;
 import gate.Document;
 import gate.creole.AbstractLanguageAnalyser;
@@ -52,7 +51,6 @@ import org.codehaus.groovy.runtime.InvokerInvocationException;
  */
 @CreoleResource(name = "Groovy scripting PR", comment = "Runs a Groovy script as a processing resource", helpURL = "http://gate.ac.uk/userguide/sec:api:groovy", icon = "script-pr")
 public class ScriptPR extends AbstractLanguageAnalyser implements
-                                                      ProcessingResource,
                                                       ControllerAwarePR {
 
   private static final long serialVersionUID = 7563063357390091727L;
@@ -114,14 +112,13 @@ public class ScriptPR extends AbstractLanguageAnalyser implements
 
     char[] buf = new char[4096];
     int charsRead = 0;
-    try {
-      Reader reader =
+    try (Reader reader =
               new BomStrippingInputStreamReader(scriptURL.openStream(),
-                      encoding);
+                      encoding)) {
+      
       while((charsRead = reader.read(buf)) >= 0) {
         scriptText.append(buf, 0, charsRead);
       }
-      reader.close();
 
       groovySrc = scriptText.toString();
 
@@ -206,12 +203,13 @@ public class ScriptPR extends AbstractLanguageAnalyser implements
         metaMethods.get(0).invoke(groovyScript,
                 new Corpus[]{((CorpusController)c).getCorpus()});
       } catch(InvokerInvocationException iie) {
-        if(iie.getCause() instanceof ExecutionException) {
-          throw (ExecutionException)iie.getCause();
-        } else if(iie.getCause() instanceof RuntimeException) {
-          throw (RuntimeException)iie.getCause();
-        } else if(iie.getCause() instanceof Error) {
-          throw (Error)iie.getCause();
+	Throwable cause = iie.getCause();
+        if(cause instanceof ExecutionException) {
+          throw (ExecutionException)cause;
+        } else if(cause instanceof RuntimeException) {
+          throw (RuntimeException)cause;
+        } else if(cause instanceof Error) {
+          throw (Error)cause;
         } else {
           throw iie;
         }
