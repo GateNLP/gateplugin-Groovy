@@ -147,7 +147,7 @@ public class ScriptPREditor extends AbstractVisualResource implements
 
     // get the script file or null if loaded from a non-file url
     try {
-      file = Files.fileFromURL(pr.getScriptURL());
+      file = Files.fileFromURL(pr.getScriptURL().toURL());
     } catch(Exception e) {
       file = null;
     }

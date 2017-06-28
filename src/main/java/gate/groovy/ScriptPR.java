@@ -25,6 +25,7 @@ import gate.creole.AbstractLanguageAnalyser;
 import gate.creole.ControllerAwarePR;
 import gate.creole.ExecutionException;
 import gate.creole.ResourceInstantiationException;
+import gate.creole.ResourceReference;
 import gate.creole.metadata.CreoleParameter;
 import gate.creole.metadata.CreoleResource;
 import gate.creole.metadata.Optional;
@@ -38,6 +39,7 @@ import groovy.lang.Script;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 
@@ -58,7 +60,7 @@ public class ScriptPR extends AbstractLanguageAnalyser implements
   /**
    * Groovy script file
    */
-  private URL scriptURL;
+  private ResourceReference scriptURL;
 
   /**
    * Parameters passed to the Groovy script
@@ -335,7 +337,7 @@ public class ScriptPR extends AbstractLanguageAnalyser implements
    *
    * @return the URL of the Groovy script
    */
-  public URL getScriptURL() {
+  public ResourceReference getScriptURL() {
     return scriptURL;
   }
 
@@ -346,8 +348,17 @@ public class ScriptPR extends AbstractLanguageAnalyser implements
    */
   @CreoleParameter(comment = "Location of the Groovy script that will be "
           + "run for each document")
-  public void setScriptURL(URL script) {
+  public void setScriptURL(ResourceReference script) {
     this.scriptURL = script;
+  }
+  
+  @Deprecated
+  public void setScriptURL(URL script) {
+    try {
+      this.setScriptURL(new ResourceReference(script));
+    } catch(URISyntaxException e) {
+      throw new RuntimeException("Error converting URL to ResourceReference",e);
+    }
   }
 
   /**
