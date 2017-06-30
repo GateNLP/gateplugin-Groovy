@@ -51,7 +51,7 @@ import org.codehaus.groovy.runtime.InvokerInvocationException;
  *
  * @author Angus Roberts, Ian Roberts
  */
-@CreoleResource(name = "Groovy scripting PR", comment = "Runs a Groovy script as a processing resource", helpURL = "http://gate.ac.uk/userguide/sec:api:groovy", icon = "script-pr")
+@CreoleResource(name = "Groovy scripting PR", comment = "Runs a Groovy script as a processing resource", helpURL = "http://gate.ac.uk/userguide/sec:api:groovy", icon = "ScriptPR")
 public class ScriptPR extends AbstractLanguageAnalyser implements
                                                       ControllerAwarePR {
 

@@ -25,7 +25,7 @@ import org.apache.log4j.Logger
 @CreoleResource(name = "Scriptable Controller", comment =
     "A controller whose execution strategy is controlled by a Groovy script",
     helpURL = "http://gate.ac.uk/userguide/sec:api:groovy:controller",
-    icon = "scriptable-controller")
+    icon = "ScriptableController")
 public class ScriptableController extends SerialController
                           implements CorpusController, LanguageAnalyser {
                             
