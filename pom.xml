@@ -16,6 +16,9 @@
 	<groupId>uk.ac.gate.plugins</groupId>
 	<artifactId>groovy</artifactId>
 	<version>8.5-SNAPSHOT</version>
+	
+	<name>Groovy</name>
+	<description>Adds support for the Groovy scripting language to GATE as well as making GATE easier to use from Groovy scripts</description>
 
 	<licenses>
 		<license>
