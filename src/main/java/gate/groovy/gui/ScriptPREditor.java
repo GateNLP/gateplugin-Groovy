@@ -61,6 +61,25 @@ public class ScriptPREditor extends AbstractVisualResource implements
 
     return this;
   }
+  
+  public void cleanup() {
+    // if the VR is being destroyed then remove it from the PR progress listener
+    // otherwise we leak the VR instance
+    if(pr != null) {
+      pr.removeProgressListener(this);
+    }
+    
+    // also stop the editor from having us in the list as again that seems to
+    // cause us to leak the whole editor
+    editor.getTextEditor().getDocument().removeDocumentListener(this);
+    
+    // plus we have to remove the editor from the panel because for some reason
+    // it holds on to a copy of this class via the layout which again causes
+    // everything to leak when you close the VR
+    remove(editor);
+    
+    //all that was total madness! cleanup shouldn't be that convoluted :(
+  }
 
   protected void initGuiComponents() {
     setLayout(new BorderLayout());
