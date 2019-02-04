@@ -35,6 +35,9 @@ import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.UndoableEditListener;
+import javax.swing.text.AbstractDocument;
+import javax.swing.undo.UndoManager;
 
 /**
  * A VR for viewing and editing the script behind a Groovy Scripting PR
@@ -173,6 +176,16 @@ public class ScriptPREditor extends AbstractVisualResource implements
 
     // get the editor to display the script
     editor.getTextEditor().setText(pr.getGroovySrc());
+
+    // as we are replacing the script and hence won't care about any previous
+    // edits let's discard all the previous edits that we can to avoid memory
+    // leaks from the document being reloaded multiple times
+    for(UndoableEditListener undoListener : ((AbstractDocument)editor
+        .getTextEditor().getDocument()).getUndoableEditListeners()) {
+      if(undoListener instanceof UndoManager) {
+        ((UndoManager)undoListener).discardAllEdits();
+      }
+    }
 
     // disable editing if we loaded from a URL
     editor.getTextEditor().setEditable(file != null);
